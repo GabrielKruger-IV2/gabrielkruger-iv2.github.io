@@ -1,7 +1,8 @@
 var estrutura = document.getElementById('body')
 var cont=0;
-var links = []
+var links = [];
 const xhr = new XMLHttpRequest();
+
 
 xhr.open("GET", "https://api.github.com/users/GabrielKruger-IV2/repos")
 xhr.send();
@@ -29,7 +30,7 @@ xhr.onreadystatechange = function () {
                 <tr>
                     
                     <td id="tdLing"><img src='images/${result[i].language}.png' width='100px' height='100px'><p id="linguagem">Linguagem principal:${result[i].language}</p></td>
-                    <td class="tdA"><button class="btn" onclick="copiar(${i})">Clonar</button></td>
+                    <td class="tdA"><button class="btn" onclick="copiar(${i})">Clonar</button> <button class="btn" onclick="repo(${result[i].id})">Ver repositório</button></td>
                 </tr>
     
         
@@ -37,6 +38,7 @@ xhr.onreadystatechange = function () {
             </div>`;
         cont=1;
         links[i] = result[i].clone_url;
+        
     }else{
         estrutura.innerHTML += `    
         
@@ -53,7 +55,7 @@ xhr.onreadystatechange = function () {
             <tr>
                 
                 <td id="tdLing"><img src='images/${result[i].language}.png' width='100px' height='100px'><p id="linguagem">Linguagem principal:${result[i].language}</p></td>
-                <td class="tdA"><button class="btn" onclick="copiar(${i})">Clonar</button></td>
+                <td class="tdA"><button class="btn" onclick="copiar(${i})">Clonar</button><button class="btn" onclick="repo(${result[i].id})">Ver repositório</button></td>
             </tr>
 
     
@@ -62,6 +64,7 @@ xhr.onreadystatechange = function () {
     `;
         cont=0;
         links[i] = result[i].clone_url;
+        
         }
 
 
@@ -79,4 +82,12 @@ function copiar(e) {
     document.execCommand("copy");
     input.remove();
     alert("Link copiado");
+  }
+
+  function repo(obj){
+      
+      const obj_json = JSON.stringify(obj);
+      localStorage.setItem("repo",obj_json)
+      window.location.href = "repositorio.html";
+      
   }
